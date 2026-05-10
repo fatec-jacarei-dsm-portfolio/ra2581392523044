@@ -1,11 +1,657 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Portfólio - BRENO AUGUSTO SANTOS JESUS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRENO AUGUSTO — SOFTWARE DEVELOPER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink: #FF2070;
+      --pink-light: #FF6FA8;
+      --black: #0A0A0A;
+      --white: #F5F0EE;
+      --gray: #1A1A1A;
+      --border: 2.5px solid var(--black);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'IBM Plex Mono', monospace;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      width: 14px; height: 14px;
+      background: var(--pink);
+      border-radius: 50%;
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+      mix-blend-mode: multiply;
+    }
+    .cursor.hovering { width: 38px; height: 38px; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; width: 100%;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: var(--black);
+      border-bottom: var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.12em;
+      color: var(--pink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; }
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--pink);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--pink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* SECTIONS */
+    section { padding: 120px 48px; }
+
+    /* ======= BANNER ======= */
+    #banner {
+      min-height: 100vh;
+      background: var(--pink);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+      border-bottom: var(--border);
+    }
+
+    .banner-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--black);
+      opacity: 0.6;
+      margin-bottom: 16px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .banner-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 13vw, 14rem);
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      color: var(--black);
+      text-transform: uppercase;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .banner-role {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      border-top: var(--border);
+      border-bottom: var(--border);
+      padding: 16px 0;
+      margin-top: 28px;
+      display: flex; align-items: center; gap: 24px;
+      animation: fadeUp 1s 0.25s ease both;
+    }
+    .banner-role span.dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      background: var(--black);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .banner-noise {
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .banner-counter {
+      position: absolute;
+      top: 110px; right: 48px;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      color: var(--black);
+      opacity: 0.4;
+    }
+
+    /* ======= SOBRE ======= */
+    #sobre {
+      background: var(--black);
+      color: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-bottom: 24px;
+    }
+    .sobre-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+    .sobre-body {
+      font-size: 0.85rem;
+      line-height: 1.85;
+      color: #BBBBBB;
+      margin-top: 28px;
+    }
+    .sobre-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      margin-top: 0;
+    }
+    .stat-box {
+      border: 1px solid #222;
+      padding: 28px 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .stat-box:hover { border-color: var(--pink); background: #111; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--pink);
+      line-height: 1;
+    }
+    .stat-desc {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #888;
+      margin-top: 6px;
+    }
+
+    /* ======= HABILIDADES ======= */
+    #habilidades {
+      background: var(--white);
+      border-top: var(--border);
+      border-bottom: var(--border);
+    }
+    .skills-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      border-bottom: var(--border);
+      padding-bottom: 24px;
+      margin-bottom: 0;
+    }
+    .skills-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      letter-spacing: 0.01em;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .skill-category {
+      border-right: var(--border);
+      border-bottom: var(--border);
+      padding: 36px 32px;
+      transition: background 0.2s;
+    }
+    .skill-category:nth-child(3n) { border-right: none; }
+    .skill-category:nth-last-child(-n+3) { border-bottom: none; }
+    .skill-category:hover { background: var(--pink); }
+    .skill-category:hover .skill-cat-title,
+    .skill-category:hover .skill-tag { color: var(--black); border-color: var(--black); }
+    .skill-cat-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: 1.5px solid var(--black);
+      padding: 5px 12px;
+      border-radius: 0;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    /* ======= PROJETOS ======= */
+    #projetos {
+      background: var(--black);
+      color: var(--white);
+    }
+    .projetos-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      border-bottom: 1px solid #222;
+      padding-bottom: 20px;
+      margin-bottom: 0;
+    }
+    .projetos-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: var(--white);
+    }
+    .projeto-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 32px;
+      padding: 36px 0;
+      border-bottom: 1px solid #1E1E1E;
+      cursor: pointer;
+      transition: padding-left 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .projeto-item::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 0;
+      background: var(--pink);
+      transition: width 0.4s ease;
+      z-index: 0;
+    }
+    .projeto-item:hover::before { width: 4px; }
+    .projeto-item:hover { padding-left: 16px; }
+    .projeto-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: #333;
+      letter-spacing: 0.1em;
+      position: relative; z-index: 1;
+    }
+    .projeto-info { position: relative; z-index: 1; }
+    .projeto-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .projeto-item:hover .projeto-name { color: var(--pink); }
+    .projeto-desc {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: #666;
+      margin-top: 6px;
+    }
+    .projeto-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .projeto-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      border: 1px solid #333;
+      padding: 4px 10px;
+      color: #888;
+      position: relative; z-index: 1;
+    }
+    .projeto-arrow {
+      font-size: 1.4rem;
+      color: #333;
+      transition: color 0.2s, transform 0.2s;
+      position: relative; z-index: 1;
+    }
+    .projeto-item:hover .projeto-arrow { color: var(--pink); transform: translate(4px, -4px); }
+
+    /* ======= CONTATO ======= */
+    #contato {
+      background: var(--pink);
+      border-top: var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .contato-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 8rem);
+      line-height: 0.9;
+      color: var(--black);
+    }
+    .contato-sub {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      line-height: 1.7;
+      color: var(--black);
+      opacity: 0.7;
+      margin-top: 20px;
+    }
+    .contato-links { display: flex; flex-direction: column; gap: 0; }
+    .contato-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0;
+      border-bottom: 2px solid var(--black);
+      text-decoration: none;
+      color: var(--black);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      letter-spacing: 0.06em;
+      transition: padding-left 0.3s;
+    }
+    .contato-link:first-child { border-top: 2px solid var(--black); }
+    .contato-link:hover { padding-left: 12px; }
+    .contato-link-arrow { font-size: 1.2rem; transition: transform 0.2s; }
+    .contato-link:hover .contato-link-arrow { transform: translate(4px, -4px); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 24px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: var(--border);
+    }
+    footer span {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #444;
+    }
+    footer .foot-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      color: var(--pink);
+      letter-spacing: 0.1em;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: var(--pink); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { gap: 20px; }
+      section { padding: 80px 24px; }
+      #sobre, #contato { grid-template-columns: 1fr; gap: 48px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .skill-category:nth-child(2n) { border-right: none; }
+      .skill-category:nth-child(3n) { border-right: var(--border); }
+      .projeto-item { grid-template-columns: 48px 1fr; }
+      .projeto-arrow { display: none; }
+      .banner-name { font-size: clamp(3.5rem, 16vw, 7rem); }
+    }
+  </style>
 </head>
 <body>
-    <h1>Bem vindo ao Portfólio de BRENO AUGUSTO SANTOS JESUS</h1>
+
+  <div class="cursor" id="cursor"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#banner" class="nav-logo">BA</a>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#habilidades">Skills</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </nav>
+
+  <!-- BANNER -->
+  <section id="banner">
+    <div class="banner-noise"></div>
+    <div class="banner-counter">Jacareí-SP — BR — 2025</div>
+    <div class="banner-tag">Software Developer · Backend Focus · Full Stack</div>
+    <h1 class="banner-name">Breno<br>Augusto</h1>
+    <div class="banner-role">
+      <span class="dot"></span>
+      Construindo sistemas robustos, APIs escaláveis e experiências que funcionam de verdade
+      <span class="dot"></span>
+    </div>
+  </section>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="reveal">
+      <div class="section-label">// 001 — Sobre mim</div>
+      <h2 class="sobre-heading">Código<br>limpo,<br>sistemas<br>sólidos.</h2>
+      <p class="sobre-body">
+        Desenvolvedor full stack com foco em backend, apaixonado por arquitetura de sistemas, APIs bem desenhadas e soluções que escalam. Trabalho com tecnologias modernas para entregar software que faz diferença — do banco de dados ao usuário final.<br><br>
+        [Placeholder: escreva aqui sua bio, trajetória, o que te move e o que você busca profissionalmente.]
+      </p>
+    </div>
+    <div class="sobre-stats reveal">
+      <div class="stat-box">
+        <div class="stat-num">+1</div>
+        <div class="stat-desc">Anos de experiência</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">+2</div>
+        <div class="stat-desc">Projetos entregues</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">2X</div>
+        <div class="stat-desc">Stacks dominadas</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-desc">Vontade de aprender</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HABILIDADES -->
+  <section id="habilidades" style="padding-left:0;padding-right:0;padding-top:0;">
+    <div class="skills-header" style="padding: 60px 48px 24px;">
+      <div>
+        <div class="section-label">// 002 — Habilidades</div>
+        <h2 class="skills-title">SKILLS &amp; STACK</h2>
+      </div>
+      <span style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;opacity:0.4;">Ferramentas do ofício</span>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Backend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Java</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Banco de Dados</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">TypeScript</span>
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">Tailwind</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">DevOps & Cloud</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span>
+
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Ferramentas</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">Trello</span>
+          <span class="skill-tag">Figma</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">Conceitos</div>
+        <div class="skill-tags">
+          <span class="skill-tag">SCRUM</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <div class="projetos-header reveal">
+      <div>
+        <div class="section-label" style="color:var(--pink)">// 003 — Projetos</div>
+        <h2 class="projetos-title">PROJETOS</h2>
+      </div>
+      <span style="font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:#444;">Trabalhos selecionados</span>
+    </div>
+
+    <div class="projeto-item reveal">
+      <span class="projeto-num">001</span>
+      <div class="projeto-info">
+        <div class="projeto-name">AgriRS-Lab</div>
+        <div class="projeto-desc">Website do Laboratório de Sensoriamento Remoto Agrícola</div>
+        <div class="projeto-tags" style="margin-top:12px;">
+          <span class="projeto-tag">HTML</span>
+          <span class="projeto-tag">CSS</span>
+          <span class="projeto-tag">JavaScript</span>
+          <span class="projeto-tag">Node-js</span>
+          <span class="projeto-tag">PostgreSQL</span>
+        </div>
+      </div>
+      <a href="https://github.com/KaimanByte/AgriRS-Lab">
+        <span class="projeto-arrow">↗</span>
+      </a>
+    </div>
+
+    <div class="projeto-item reveal">
+      <span class="projeto-num">002</span>
+      <div class="projeto-info">
+        <div class="projeto-name">Chatbot - Fatec Jacareí</div>
+        <div class="projeto-desc"> Aplicação Web de Autoatendimento da Secretaria Acadêmica</div>
+        <div class="projeto-tags" style="margin-top:12px;">
+          <span class="projeto-tag">TypeScrpit</span>
+          <span class="projeto-tag">PostgreSQL</span>
+          <span class="projeto-tag">React</span>
+          <span class="projeto-tag">Docker</span>
+        </div>
+      </div>
+      <a href="https://github.com/NexaTechJAC/2-Semestre">
+        <span class="projeto-arrow">↗</span>
+      </a>
+    </div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="reveal">
+      <div class="section-label" style="color:var(--black);opacity:0.5;">// 004 — Contato</div>
+      <h2 class="contato-heading">Vamos<br>trabalhar<br>juntos?</h2>
+      <p class="contato-sub">Aberto a oportunidades, freelas e projetos interessantes.<br>Me chama — a resposta é rápida.</p>
+    </div>
+    <div class="contato-links reveal">
+      <a href="mailto:brenoaugusto1910@gmail.com" class="contato-link">
+        E-MAIL
+        <span class="contato-link-arrow">↗</span>
+      </a>
+      <a href="https://linkedin.com/in/brenoaugusto" target="_blank" class="contato-link">
+        LINKEDIN
+        <span class="contato-link-arrow">↗</span>
+      </a>
+      <a href="https://github.com/brenoasj" target="_blank" class="contato-link">
+        GITHUB
+        <span class="contato-link-arrow">↗</span>
+      </a>
+      <a href="#" class="contato-link">
+        CURRÍCULO ↓
+        <span class="contato-link-arrow">↓</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="foot-name">Breno Augusto</span>
+    <span>© 2025 — Todos os direitos reservados</span>
+    <span>Software Developer — SP, Brasil</span>
+  </footer>
+
+  <script>
+    // CURSOR
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .projeto-item, .skill-category, .stat-box').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+    });
+
+    // SCROLL REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
